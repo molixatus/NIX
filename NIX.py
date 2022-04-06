@@ -1,7 +1,7 @@
 import curses
 from curses import wrapper
 buttonPos = 0
-
+p = 4
 def start_screen(stdscr):
     stdscr.clear()
     stdscr.addstr("Welcome to NIX game!", curses.color_pair(1))
