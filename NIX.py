@@ -5,7 +5,7 @@ buttonPos = 0
 menulevel = 0
 menulevelmax = 1
 system('title NIX')
-
+#waho
 def start_screen(stdscr):
     stdscr.addstr(20,10, "Welcome to NIX game!   ", curses.color_pair(2))
     stdscr.addstr(21,10, "Press any key to begin!", curses.color_pair(2))
