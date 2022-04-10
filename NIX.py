@@ -30,16 +30,18 @@ def menuPos(stdscr, b0, b1, b2, b3, b4, b5, b6, b7, b8, b9):
 def get_key(stdscr,k1,k2,k3):
     global buttonPos
     global menulevel
+    k1 = k1.split(':')
+    k2 = k2.split(':')
     k3 = k3.split(':')
     Key = stdscr.getkey()
     ###                                     W Key
-    if Key.lower() == k1:
+    if Key.lower() == k1[0] or Key == k1[1]:
         if buttonPos == 2:
             pass
         else:
             buttonPos = buttonPos + 1
     ###                                     S Key
-    elif Key.lower() == k2:
+    elif Key.lower() == k2[0] or Key == k2[1]:
         if buttonPos == 0:
             pass
         else:
@@ -50,6 +52,7 @@ def get_key(stdscr,k1,k2,k3):
             if buttonPos == 0:
                 menulevel = menulevel + 1
                 buttonPos = 0
+                stdscr.clear()###############################################
             elif buttonPos == 2:
                 os._exit(1)
                 raise SystemExit
@@ -78,12 +81,17 @@ def main(stdscr):
 
             while menulevel == 0:
                 menuPos(stdscr, 'Play Game#######', 'Settings########', 'Exit############','','','','','','','')
-                get_key(stdscr,'s','w',' :\n')
+                get_key(stdscr,'s:KEY_DOWN','w:KEY_UP',' :\n')
                 
             while menulevel == 1:
 
+                #stdscr.refresh()
+                #Key = stdscr.getkey()
+                #stdscr.addstr(15, 10, '              ', curses.color_pair(1))
+                #stdscr.addstr(15, 10, Key, curses.color_pair(1))
+
                 menuPos(stdscr, 'Play Local######', 'Play Online#####', 'Back############','','','','','','','')
-                get_key(stdscr,'s','w',' :\n')
+                get_key(stdscr,'s:KEY_DOWN','w:KEY_UP',' :\n')
 
 wrapper(main)
 
