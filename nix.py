@@ -11,6 +11,8 @@ buttonfunctionlist = []
 def menuPos(stdscr,b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bamm):
     global buttonfunctionlist
     global buttonPosMax
+    global buttonPos
+    buttonfunctionlist = []
     buttonPosMax = bamm - 1
     buttontextlist = b0,b1,b2,b3,b4,b5,b6,b7,b8,b9
 
@@ -19,6 +21,7 @@ def menuPos(stdscr,b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bamm):
 ###-------------------------------------------------------
 
     for i in range(bamm):
+        
         getfunction = (buttontextlist[i].replace('#', ' ').split(' '))
         getfunction = str(getfunction[0]).lower()
         buttonfunctionlist.append(getfunction)
@@ -30,6 +33,8 @@ def menuPos(stdscr,b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bamm):
     for i in range(bamm):
         buttontext = buttontextlist[i]
         stdscr.addstr(20+i, 10, buttontext.replace('#', ' '), curses.color_pair(1))
+        
+        stdscr.addstr(20+i, 50, str(buttonPos), curses.color_pair(1))
         if buttonPos == i:
             stdscr.addstr(20+i, 10, buttontext.replace('#', ' '), curses.color_pair(2))
 
@@ -62,46 +67,23 @@ def ButtonFunction(stdscr):
     ###-------------------------------------------------------
     if Key == ' ' or Key == '\n':
         if buttonfunctionlist[buttonPos] == 'play':
-            buttonPos = 0
-            stdscr.clear()
             menulevel = menulevel + 1
-
-            stdscr.addstr(20, 10, 'play function has been pressed', curses.color_pair(1))
-            stdscr.refresh()
-            time.sleep(100)
-        elif buttonfunctionlist[buttonPos] == 'back':
             buttonPos = 0
             stdscr.clear()
+        elif buttonfunctionlist[buttonPos] == 'back':
             menulevel = menulevel - 1
-
-            stdscr.addstr(20, 10, 'back function has been pressed', curses.color_pair(1))
-            stdscr.refresh()
-            time.sleep(100)
-        elif buttonfunctionlist[buttonPos] == 'exit':
+            buttonPos = 0
             stdscr.clear()
-            stdscr.addstr(20, 10, 'exit function has been pressed', curses.color_pair(1))
-            stdscr.refresh()
-            time.sleep(100)
+        elif buttonfunctionlist[buttonPos] == 'exit':
             os._exit(1)
-    ###_______________________________________________________
-    ###_                          FUNCTION FOR ENTER/SPACE KEY
-    ###-------------------------------------------------------
-    #elif Key == ' ' or Key == '\n':
-    #    if menulevel == 0:
-    #        if buttonPos == 0:
-    #            menulevel = menulevel + 1
-    #            buttonPos = 0
-    #            stdscr.clear()
-    #        elif buttonPos == 2:
-    #            os._exit(1)
-    #    elif menulevel == 1:
-    #        if buttonPos == 2:
-    #            menulevel = menulevel - 1
-    #            buttonPos = 0
-    #            stdscr.clear()
+        else:
+            return
+
 
 def main(stdscr):
     global menulevel
+    
+    global buttonfunctionlist
     ###_______________________________________________________
     ###_ DISABLE CURSOR, INIT SCREEN, SETUP COLORPAIRS, SET BGD COLOR
     ###-------------------------------------------------------
@@ -109,7 +91,7 @@ def main(stdscr):
     curses.initscr()
     curses.start_color()
     curses.init_color(curses.COLOR_GREEN, 40, 60, 60);
-    curses.init_color(curses.COLOR_WHITE, 235, 229, 206);
+    #curses.init_color(curses.COLOR_WHITE, 235, 229, 206);
     curses.init_pair(1,curses.COLOR_WHITE,curses.COLOR_GREEN)
     curses.init_pair(2,curses.COLOR_GREEN,curses.COLOR_WHITE)
     stdscr.bkgd(' ', curses.color_pair(1))
@@ -122,13 +104,15 @@ def main(stdscr):
     stdscr.clear()
 
     while True:
-
+            while menulevel == -1:
+                stdscr.addstr(20, 10, 'secret menu', curses.color_pair(1))
+                stdscr.refresh()
             while menulevel == 0:
-                menuPos(stdscr, 'Play Game#######', 'Settings########', 'Exit############','','','','','','','',3)
+                menuPos(stdscr, 'Play Game#######', 'back############', 'Exit############','','','','','','','',3)
                 ButtonFunction(stdscr)
 
             while menulevel == 1:
-                menuPos(stdscr, 'Local Game######', 'Online Game#####', 'Back############','','','','','','','',3)
+                menuPos(stdscr, 'Local Game######', 'online game######', 'Back############','','','','','','','',3)
                 ButtonFunction(stdscr)
 
                 #for i in range(5):
